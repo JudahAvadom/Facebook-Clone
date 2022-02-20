@@ -20,6 +20,8 @@ app.use((req, res, next) => {
     next()
 })
 
+require('./socket')(io)
+
 mongoose
     .connect(MONGODB_URI, {
         useNewUrlParser: true,

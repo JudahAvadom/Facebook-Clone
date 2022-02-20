@@ -6,7 +6,11 @@ import useSignupUser from './hooks/useSignupUser'
 const SignupForm = () => {
   const {
     handleSignupUser,
-    loading
+    loading,
+    error,
+    handleNameChange,
+    handleEmailChange,
+    handlePasswordChange
   } = useSignupUser()
   return (
     <Fragment>
@@ -15,6 +19,9 @@ const SignupForm = () => {
           <TextField
             label="Name"
             variant="outlined"
+            onChange={handleNameChange}
+            error={error && error.name ? true : false}
+            helperText={error && error.name ? error.name : null}
             style={{ marginTop: '16px' }}
           />
         </FormControl>
@@ -23,6 +30,9 @@ const SignupForm = () => {
             label="Email"
             variant="outlined"
             style={{ marginTop: '16px' }}
+            onChange={handleEmailChange}
+            error={error && error.email ? true : false}
+            helperText={error && error.email ? error.email : null}
           />
         </FormControl>
         <FormControl style={{ width: '100%' }}>
@@ -31,6 +41,9 @@ const SignupForm = () => {
             variant="outlined"
             style={{ marginTop: '16px' }}
             type="password"
+            error={error && error.password ? true : false}
+            helperText={error && error.password ? error.password : null}
+            onChange={handlePasswordChange}
           />
         </FormControl>
         <Button

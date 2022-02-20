@@ -1,11 +1,12 @@
 import React, { Fragment } from 'react';
-import { FormControl, TextField, Button } from "@mui/material";
+import { FormControl, TextField, Button, CircularProgress } from "@mui/material";
 
 import useSignupUser from './hooks/useSignupUser'
 
 const SignupForm = () => {
   const {
     handleSignupUser,
+    loading
   } = useSignupUser()
   return (
     <Fragment>
@@ -42,7 +43,9 @@ const SignupForm = () => {
           }}
           variant="contained"
         >
-          Sign up
+          {loading ? 
+            ( <CircularProgress variant="indeterminate" size={25} style={{ color: '#fff' }}/>) : 
+            ( 'Sign up' )}
         </Button>
       </form>
     </Fragment>

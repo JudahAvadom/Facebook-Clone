@@ -7,6 +7,8 @@ const http = require('http')
 const server = http.createServer(app)
 const io = require('socket.io')(server)
 
+const AuthRoutes = require('./routes/Auth')
+
 const PORT = process.env.PORT || 5000
 const {MONGODB_URI} = require("./config")
 
@@ -20,15 +22,14 @@ app.use((req, res, next) => {
     next()
 })
 
+app.use('/api/auth', AuthRoutes)
+
 require('./socket')(io)
 
-mongoose
-    .connect(MONGODB_URI, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-    })
-    .then(() => {
-        console.log('Database connected')
-        server.listen(PORT, () => console.log(`Server started on port ${PORT}`))
-    })
-    .catch((err) => console.log(err))
+mongoose.connect(MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+}).then(() => {
+    console.log('Database connected')
+    server.listen(PORT, () => console.log(`Server started on port ${PORT}`))
+}).catch((err) => console.log(err))

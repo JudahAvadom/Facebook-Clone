@@ -1,4 +1,4 @@
-import React, { createContext, useReducer, lazy, Suspense, useState } from "react";
+import React, { createContext, useReducer, lazy, Suspense, useState, Fragment } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { ThemeProvider, useTheme, createTheme } from "@mui/material";
 
@@ -43,20 +43,22 @@ function App() {
         <PostContext.Provider value={{ postState, postDispatch }}>
           <ChatContext.Provider value={{ chatState, chatDispatch }}>
             <ThemeProvider theme={Theme}>
-              <BrowserRouter>
-                <div style={{
-                    backgroundColor: !uiState.darkMode ? 'rgb(240,242,245)' : 'rgb(24,25,26)',
-                  }}
-                >
-                  <Suspense fallback={<Loader />}>
-                    {loading ? ( <Loader /> ) : (
-                      <Routes>
-                        <Route path='/' element={!userState.isLoggedIn ? ( <Auth /> ) : ( <Navigate to='/home' /> )} />
-                      </Routes>
-                    )}
-                  </Suspense>
-                </div>
-              </BrowserRouter>
+              <Fragment>
+                <BrowserRouter>
+                  <div style={{
+                      backgroundColor: !uiState.darkMode ? 'rgb(240,242,245)' : 'rgb(24,25,26)',
+                    }}
+                  >
+                    <Suspense fallback={<Loader />}>
+                      {loading ? ( <Loader /> ) : (
+                        <Routes>
+                          <Route path='/' element={!userState.isLoggedIn ? ( <Auth /> ) : ( <Navigate to='/home' /> )} />
+                        </Routes>
+                      )}
+                    </Suspense>
+                  </div>
+                </BrowserRouter>
+              </Fragment>
             </ThemeProvider>
           </ChatContext.Provider>
         </PostContext.Provider>

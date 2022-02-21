@@ -1,6 +1,7 @@
-import React, { createContext, useReducer, lazy, Suspense, useState, Fragment } from "react";
+import React, { createContext, useReducer, lazy, Suspense, useState, Fragment, useEffect } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { ThemeProvider, useTheme, createTheme } from "@mui/material";
+import jwtDecode from 'jwt-decode'
 
 // Context
 import { initialUIState, UIReducer } from './context/UIContext';
@@ -15,6 +16,8 @@ export const ChatContext = createContext()
 // Components
 import Loader from "./components/Loader";
 const Auth = lazy(() => import('./screens/Auth'))
+
+const token = localStorage.token && JSON.parse(localStorage.token)
 
 function App() {
   const [loading, setLoading] = useState(false)
@@ -37,6 +40,30 @@ function App() {
       },
     }), [uiState.darkMode])
   const theme = useTheme()
+  useEffect(()=>{
+    async function loadCurrentUser() {
+      if (token) {
+        const decodeToken = jwtDecode(token)
+        console.log(decodeToken);
+        if (decodeToken.exp * 1000 < Date.now()) {
+          userDispatch({ type: 'LOGOUT_USER' })
+        } else {
+          const currentUser = await fetchCurrentUser()
+          if (currentUser && currentUser.data) {
+            userDispatch({
+              type: 'SET_CURRENT_USER',
+              payload: currentUser.data.user,
+            })
+            uiDispatch({
+              type: 'SET_NOTIFICATIONS',
+              payload: currentUser.data.notifications,
+            })
+          }
+        }
+      }
+    }
+    loadCurrentUser();
+  }, [])
   return (
     <UIContext.Provider value={{ uiState, uiDispatch }}>
       <UserContext.Provider value={{ userState, userDispatch }}>

@@ -1,15 +1,28 @@
 export const initialUIState = {
     message: null,
+    drawer: false,
     darkMode: false,
     notifications: [],
+    mdScreen: false,
+    drawer: false,
 }
 
 export const UIReducer = (state, action) => {
     switch (action.type) {
+        case 'SET_USER_SCREEN':
+            return {
+                ...state,
+                mdScreen: action.payload,
+        }
+        case 'SET_DRAWER':
+            return {
+                ...state,
+                drawer: action.payload,
+        }
         case 'SET_NOTIFICATIONS':
-        return {
-            ...state,
-            notifications: action.payload,
+            return {
+                ...state,
+                notifications: action.payload,
         }
         case 'SET_MESSAGE':
             return {

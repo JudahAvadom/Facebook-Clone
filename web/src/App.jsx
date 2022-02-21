@@ -1,6 +1,6 @@
-import React, { createContext, useReducer, lazy, Suspense, useState, Fragment, useEffect } from "react";
+import React, { createContext, useReducer, lazy, Suspense, useState, Fragment, useEffect, useMemo } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { ThemeProvider, useTheme, createTheme } from "@mui/material";
+import { ThemeProvider, useTheme, createTheme, useMediaQuery } from "@mui/material";
 import { fetchCurrentUser } from './services/AuthService'
 import jwtDecode from 'jwt-decode'
 
@@ -29,21 +29,25 @@ function App() {
   const [userState, userDispatch] = useReducer(UserReducer, initialUserState)
   const [postState, postDispatch] = useReducer(PostReducer, initialPostState)
   const [chatState, chatDispatch] = useReducer(ChatReducer, initialChatState)
-  const Theme = React.useMemo(() => createTheme({
-      active: {
-        success: 'rgb(63,162,76)',
-      },
-      palette: {
-        type: uiState.darkMode ? 'dark' : 'light',
-        primary: {
-          main: 'rgb(1,133,243)',
-        },
-        secondary: {
-          main: 'rgb(63,162,76)',
-        },
-      },
-    }), [uiState.darkMode])
   const theme = useTheme()
+  const mdScreen = useMediaQuery(theme.breakpoints.up('md'))
+  const Theme = useMemo(() => createTheme({
+    active: {
+      success: 'rgb(63,162,76)',
+    },
+    palette: {
+      type: uiState.darkMode ? 'dark' : 'light',
+      primary: {
+        main: 'rgb(1,133,243)',
+      },
+      secondary: {
+        main: 'rgb(63,162,76)',
+      },
+    },
+  }), [uiState.darkMode])
+  useEffect(() => {
+    uiDispatch({ type: 'SET_USER_SCREEN', payload: mdScreen })
+  }, [mdScreen])
   useEffect(()=>{
     async function loadCurrentUser() {
       if (token) {

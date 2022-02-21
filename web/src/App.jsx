@@ -1,6 +1,7 @@
 import React, { createContext, useReducer, lazy, Suspense, useState, Fragment, useEffect } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { ThemeProvider, useTheme, createTheme } from "@mui/material";
+import { fetchCurrentUser } from './services/AuthService'
 import jwtDecode from 'jwt-decode'
 
 // Context
@@ -15,7 +16,10 @@ export const ChatContext = createContext()
 
 // Components
 import Loader from "./components/Loader";
+import Navbar from "./components/Navbar/Navbar";
+import ProtectedRoute from "./utils/ProtectedRoute";
 const Auth = lazy(() => import('./screens/Auth'))
+const Home = lazy(() => import('./screens/Home'))
 
 const token = localStorage.token && JSON.parse(localStorage.token)
 
@@ -72,6 +76,7 @@ function App() {
             <ThemeProvider theme={Theme}>
               <Fragment>
                 <BrowserRouter>
+                  {userState.isLoggedIn && <Navbar />}
                   <div style={{
                       backgroundColor: !uiState.darkMode ? 'rgb(240,242,245)' : 'rgb(24,25,26)',
                     }}
@@ -80,6 +85,7 @@ function App() {
                       {loading ? ( <Loader /> ) : (
                         <Routes>
                           <Route path='/' element={!userState.isLoggedIn ? ( <Auth /> ) : ( <Navigate to='/home' /> )} />
+                          <Route path='/home' element={<ProtectedRoute isLoggedIn={userState.isLoggedIn}><Home /></ProtectedRoute>} />
                         </Routes>
                       )}
                     </Suspense>

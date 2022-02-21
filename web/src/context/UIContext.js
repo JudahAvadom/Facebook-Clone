@@ -1,10 +1,16 @@
 export const initialUIState = {
     message: null,
     darkMode: false,
+    notifications: [],
 }
 
 export const UIReducer = (state, action) => {
     switch (action.type) {
+        case 'SET_NOTIFICATIONS':
+        return {
+            ...state,
+            notifications: action.payload,
+        }
         case 'SET_MESSAGE':
             return {
                 ...state,

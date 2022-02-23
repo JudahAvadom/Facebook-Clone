@@ -2,9 +2,9 @@ import React, { Fragment } from 'react'
 
 const LoginForm = () => {
   return (
-    <div>
+    <Fragment>
       
-    </div>
+    </Fragment>
   )
 }
 

@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { Fragment } from 'react'
+import ProfileMenu from './ProfileMenu'
 
 const RightMenu = () => {
   return (
-    <div>
-      
-    </div>
+    <Fragment>
+      <ProfileMenu />
+    </Fragment>
   )
 }
 

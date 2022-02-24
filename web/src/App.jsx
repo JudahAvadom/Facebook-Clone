@@ -18,6 +18,7 @@ export const ChatContext = createContext()
 import Loader from "./components/Loader";
 import Navbar from "./components/Navbar/Navbar";
 import ProtectedRoute from "./utils/ProtectedRoute";
+import Friends from "./screens/Friends";
 const Auth = lazy(() => import('./screens/Auth'))
 const Home = lazy(() => import('./screens/Home'))
 
@@ -70,7 +71,12 @@ function App() {
         }
       }
     }
+    function loadRecentAccounts() {
+      const accounts = localStorage.accounts ? JSON.parse(localStorage.accounts) : [];
+      userDispatch({ type: 'RECENT_ACCOUNTS', payload: accounts });
+    }
     loadCurrentUser();
+    loadRecentAccounts();
   }, [])
   return (
     <UIContext.Provider value={{ uiState, uiDispatch }}>
@@ -90,6 +96,7 @@ function App() {
                         <Routes>
                           <Route path='/' element={!userState.isLoggedIn ? ( <Auth /> ) : ( <Navigate to='/home' /> )} />
                           <Route path='/home' element={<ProtectedRoute isLoggedIn={userState.isLoggedIn}><Home /></ProtectedRoute>} />
+                          <Route path='/friends' element={<ProtectedRoute isLoggedIn={userState.isLoggedIn}><Friends /></ProtectedRoute>} />
                         </Routes>
                       )}
                     </Suspense>

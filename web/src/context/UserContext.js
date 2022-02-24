@@ -1,3 +1,5 @@
+import { filterArray } from '../utils/FilterArray'
+
 export const initialUserState = {
     currentUser: null,
     users: [],
@@ -11,6 +13,12 @@ export const initialUserState = {
 
 export const UserReducer = (state, action) => {
     switch (action.type) {
+        case 'RECENT_ACCOUNTS':
+            const accounts = filterArray(action.payload)
+            return {
+                ...state,
+                recentAccounts: accounts,
+            }
         case 'ADD_RECENT_ACCOUNT':
             let account = state.recentAccounts.find((account) => account.id == action.payload.id,)
             if (account) {

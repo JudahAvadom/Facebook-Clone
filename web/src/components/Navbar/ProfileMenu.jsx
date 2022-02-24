@@ -1,7 +1,8 @@
 import React, { useState, useContext } from 'react';
 import { UserContext, UIContext } from '../../App';
 import { LogoutUser } from '../../services/AuthService';
-import { IconButton, useTheme, useMediaQuery, Menu, List, ListItem, ListItemText, Typography } from "@mui/material";
+import { IconButton, useTheme, useMediaQuery, Menu, List, ListItem, ListItemText, Typography, Avatar, ListItemIcon } from "@mui/material";
+import { ExitToApp as LogoutIcon } from '@mui/icons-material';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
@@ -49,6 +50,11 @@ const ProfileMenu = () => {
             <Menu id="profile-menu" anchorEl={profileMenu} open={Boolean(profileMenu)} onClose={() => setProfileMenu(null)} style={{ marginTop: '50px' }}elevation={7}>
                 <List>
                     <ListItem button onClick={handleUserLogout}>
+                        <ListItemIcon>
+                            <Avatar style={{ background: 'teal',color: '#fff',}}>
+                                <LogoutIcon />
+                            </Avatar>
+                    </ListItemIcon>
                         <ListItemText>
                             <Typography style={{ fontSize: '15px' }}> Logout</Typography>
                         </ListItemText>

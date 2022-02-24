@@ -1,11 +1,11 @@
 import React, { useState, useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { UserContext, UIContext } from '../../App';
 import { LogoutUser } from '../../services/AuthService';
-import { IconButton, useTheme, useMediaQuery, Menu, List, ListItem, ListItemText, Typography, Avatar, ListItemIcon } from "@mui/material";
-import { ExitToApp as LogoutIcon } from '@mui/icons-material';
+import { IconButton, useTheme, useMediaQuery, Menu, List, ListItem, ListItemText, Typography, Avatar, ListItemIcon, Switch } from "@mui/material";
+import { ExitToApp as LogoutIcon, Settings as SettingsIcon, } from '@mui/icons-material';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
-import { useNavigate } from 'react-router-dom';
+import { faChevronDown, faSun, faMoon } from '@fortawesome/free-solid-svg-icons';
 
 const ProfileMenu = () => {
     const navigate = useNavigate();
@@ -49,6 +49,30 @@ const ProfileMenu = () => {
             </IconButton>
             <Menu id="profile-menu" anchorEl={profileMenu} open={Boolean(profileMenu)} onClose={() => setProfileMenu(null)} style={{ marginTop: '50px' }}elevation={7}>
                 <List>
+                    <ListItem button component={Link} to={`/settings`}>
+                        <ListItemIcon>
+                            <Avatar style={{background: 'teal',color: '#fff',}}>
+                                <SettingsIcon />
+                            </Avatar>
+                        </ListItemIcon>
+                        <ListItemText>
+                        <Typography style={{ fontSize: '15px' }}> Settings</Typography>
+                    </ListItemText>
+                    </ListItem>
+                    <ListItem>
+                        <ListItemIcon>
+                            <Avatar style={{background: 'teal',color: '#fff',}}>
+                            {uiState.darkMode ? (
+                                <FontAwesomeIcon icon={faSun} />
+                                ) : (
+                                <FontAwesomeIcon icon={faMoon} />
+                            )}
+                            </Avatar>
+                        </ListItemIcon>
+                        <ListItemText>
+                            <Switch checked={uiState.darkMode} onChange={(e) =>uiDispatch({type: 'SET_DARK_MODE',payload: e.target.checked,})}name="checkedB"color="primary"/>
+                        </ListItemText>
+                    </ListItem>
                     <ListItem button onClick={handleUserLogout}>
                         <ListItemIcon>
                             <Avatar style={{ background: 'teal',color: '#fff',}}>

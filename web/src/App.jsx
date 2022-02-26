@@ -2,7 +2,8 @@ import React, { createContext, useReducer, lazy, Suspense, useState, Fragment, u
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { ThemeProvider, useTheme, createTheme, useMediaQuery } from "@mui/material";
 import { fetchCurrentUser } from './services/AuthService'
-import jwtDecode from 'jwt-decode'
+import jwtDecode from 'jwt-decode';
+import io from 'socket.io-client'
 
 // Context
 import { initialUIState, UIReducer } from './context/UIContext';
@@ -77,7 +78,19 @@ function App() {
     }
     loadCurrentUser();
     loadRecentAccounts();
-  }, [])
+  }, []);
+  useEffect(() => {
+    if (userState.isLoggedIn) {
+      let socketio = io(`${import.meta.env.VITE_API_URI}`)
+      userDispatch({ type: 'SET_SOCKETIO', payload: socketio })
+      socketio.on('connect', () => {
+        console.log('connected')
+      })
+      socketio.on('friend-logout-status', ({ user_id }) => {
+        userDispatch({ type: 'FRIEND_LOGOUT', payload: user_id })
+      })
+    }
+  }, [userState.isLoggedIn])
   return (
     <UIContext.Provider value={{ uiState, uiDispatch }}>
       <UserContext.Provider value={{ userState, userDispatch }}>

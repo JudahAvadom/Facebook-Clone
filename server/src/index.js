@@ -5,7 +5,11 @@ const morgan = require('morgan')
 const app = express();
 const http = require('http')
 const server = http.createServer(app)
-const io = require('socket.io')(server)
+const io = require('socket.io')(server, {
+    cors: {
+        origin : "http://localhost:3000"
+    }
+})
 
 const AuthRoutes = require('./routes/Auth');
 const UserRoutes = require('./routes/User');
@@ -23,6 +27,10 @@ app.use((req, res, next) => {
     next()
 })
 
+app.use((req,res,next) => {
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    next();
+})
 app.use('/api/auth', AuthRoutes);
 app.use('/api/user', UserRoutes);
 

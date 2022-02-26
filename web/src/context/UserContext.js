@@ -13,6 +13,14 @@ export const initialUserState = {
 
 export const UserReducer = (state, action) => {
     switch (action.type) {
+        case 'FRIEND_LOGOUT':
+            let id1_friend = state.currentUser.friends.findIndex((user) => user.id == action.payload)
+            if (id1_friend !== -1) {
+                state.currentUser.friends[id1_friend].active = false
+            }
+            return {
+                ...state,
+            }
         case 'RECENT_ACCOUNTS':
             const accounts = filterArray(action.payload)
             return {
@@ -54,6 +62,11 @@ export const UserReducer = (state, action) => {
                 ...state,
                 currentUser: action.payload,
                 isLoggedIn: true,
+            }
+        case 'SET_SOCKETIO':
+            return {
+                  ...state,
+                  socketio: action.payload,
             }
         default:
             throw new Error(`action type ${action.type} is undefined`)

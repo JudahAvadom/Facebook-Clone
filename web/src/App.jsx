@@ -21,6 +21,7 @@ import Navbar from "./components/Navbar/Navbar";
 import ProtectedRoute from "./utils/ProtectedRoute";
 import Friends from "./screens/Friends";
 import Settings from "./screens/Settings";
+import Profie from "./screens/Profie";
 const Auth = lazy(() => import('./screens/Auth'))
 const Home = lazy(() => import('./screens/Home'))
 
@@ -112,6 +113,7 @@ function App() {
                           <Route path='/home' element={<ProtectedRoute isLoggedIn={userState.isLoggedIn}><Home /></ProtectedRoute>} />
                           <Route path='/friends' element={<ProtectedRoute isLoggedIn={userState.isLoggedIn}><Friends /></ProtectedRoute>} />
                           <Route path='/settings' element={<ProtectedRoute isLoggedIn={userState.isLoggedIn}><Settings /></ProtectedRoute>} />
+                          <Route path='/profile/:userId' element={<ProtectedRoute isLoggedIn={userState.isLoggedIn}><Profie /></ProtectedRoute>} />
                         </Routes>
                       )}
                     </Suspense>

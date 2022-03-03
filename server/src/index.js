@@ -4,7 +4,7 @@ const mongoose = require('mongoose')
 const morgan = require('morgan')
 const app = express();
 const http = require('http')
-const server = http.createServer(app)
+const server = http.createServer(app);
 const io = require('socket.io')(server, {
     cors: {
         origin : "http://localhost:3000"
@@ -13,6 +13,7 @@ const io = require('socket.io')(server, {
 
 const AuthRoutes = require('./routes/Auth');
 const UserRoutes = require('./routes/User');
+const UploadRoutes = require('./routes/Upload')
 
 const PORT = process.env.PORT || 5000
 const {MONGODB_URI} = require("./config")
@@ -33,6 +34,7 @@ app.use((req,res,next) => {
 })
 app.use('/api/auth', AuthRoutes);
 app.use('/api/user', UserRoutes);
+app.use('/api/upload', UploadRoutes);
 
 require('./socket')(io)
 

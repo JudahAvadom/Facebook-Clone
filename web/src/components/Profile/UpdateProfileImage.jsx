@@ -54,7 +54,9 @@ const UpdateProfileImage = ({ user }) => {
           <AvartarText text={user.name} bg={user.active ? 'seagreen' : 'tomato'} fontSize="40px" size="170px"/>
         )}
       </Badge>
-      <input style={{ display: 'none' }} type="file" accept="image/*" ref={inputFileRef} onChange={handleImageChange}/>
+      <form encType="multipart/form-data">
+        <input style={{ display: 'none' }} type="file" accept="image/*" ref={inputFileRef} onChange={handleImageChange}/>
+      </form>
       <Dialog
         disableEscapeKeyDown
         fullWidth

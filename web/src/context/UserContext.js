@@ -13,6 +13,15 @@ export const initialUserState = {
 
 export const UserReducer = (state, action) => {
     switch (action.type) {
+        case 'UPDATE_USER':
+            let i_01 = state.users.findIndex((user) => user.id == action.payload.id)
+            if (i_01 !== -1) {
+                state.users[i_01] = action.payload
+            }
+            return {
+                ...state,
+                currentUser: action.payload,
+        }
         case 'FRIEND_LOGOUT':
             let id1_friend = state.currentUser.friends.findIndex((user) => user.id == action.payload)
             if (id1_friend !== -1) {

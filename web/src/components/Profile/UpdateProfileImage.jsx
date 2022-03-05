@@ -4,6 +4,7 @@ import { CameraAlt as CameraIcon } from '@mui/icons-material';
 import { UserContext } from '../../App';
 import useUpdateProfilePic from '../../hooks/useUpdateProfilePic'
 import AvartarText from '../UI/AvartarText';
+import DialogLoading from '../UI/DialogLoading';
 
 const UpdateProfileImage = ({ user }) => {
   const {userState} = useContext(UserContext);

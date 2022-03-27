@@ -2,6 +2,7 @@ export const initialUIState = {
     message: null,
     drawer: false,
     darkMode: false,
+    postModel: false,
     notifications: [],
     mdScreen: false,
     drawer: false,
@@ -9,6 +10,11 @@ export const initialUIState = {
 
 export const UIReducer = (state, action) => {
     switch (action.type) {
+        case 'SET_POST_MODEL':
+            return {
+                ...state,
+                postModel: action.payload,
+        }
         case 'SET_USER_SCREEN':
             return {
                 ...state,

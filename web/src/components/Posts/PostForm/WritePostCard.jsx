@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { Paper, Avatar } from '@mui/material';
 import { UIContext, UserContext } from '../../../App'
 import AvartarText from '../../UI/AvartarText';
+import PostFormCard from './PostDialog/PostFormCard';
 
 const WritePostCard = () => {
     const { userState } = useContext(UserContext);
@@ -18,7 +19,7 @@ const WritePostCard = () => {
                     <AvartarText text={userState.currentUser.name} bg={userState.currentUser.active ? 'seagreen' : 'tomato'}/>
                     )}
                     <div style={{ width: '100%', marginLeft: '16px', marginRight: '16px' }}>
-                        
+                        <PostFormCard />
                     </div>
                 </div>
             </Paper>
